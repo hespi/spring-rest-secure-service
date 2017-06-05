@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../org.ledgerty.business/org.ledgerty.business.iml" filepath="$PROJECT_DIR$/../org.ledgerty.business/org.ledgerty.business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.ledgerty.dao.iml" filepath="$PROJECT_DIR$/org.ledgerty.dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../org.ledgerty.dto/org.ledgerty.dto.iml" filepath="$PROJECT_DIR$/../org.ledgerty.dto/org.ledgerty.dto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../org.ledgerty.exceptions/org.ledgerty.exceptions.iml" filepath="$PROJECT_DIR$/../org.ledgerty.exceptions/org.ledgerty.exceptions.iml" />
+    </modules>
+  </component>
+</project>
