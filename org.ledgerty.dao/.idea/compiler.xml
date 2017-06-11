@@ -22,12 +22,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="org.ledgerty.common.database" />
         <module name="org.ledgerty.exceptions" />
+      </profile>
+      <profile default="false" name="Annotation profile for org.ledgerty.common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="org.ledgerty.common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="org.ledgerty.business" target="1.5" />
-      <module name="org.ledgerty.dao" target="1.5" />
+      <module name="org.ledgerty.common" target="1.8" />
+      <module name="org.ledgerty.common.database" target="1.5" />
+      <module name="org.ledgerty.dao" target="1.8" />
       <module name="org.ledgerty.dto" target="1.5" />
       <module name="org.ledgerty.exceptions" target="1.5" />
     </bytecodeTargetLevel>

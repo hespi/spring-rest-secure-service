@@ -1,12 +1,15 @@
 package org.ledgerty.business;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.hibernate.id.GUIDGenerator;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.ledgerty.business.interfaces.IUserManager;
 import org.ledgerty.dao.User;
+import org.ledgerty.dto.UserInfoForAddition;
+import org.ledgerty.exceptions.AlreadyExistsException;
 import org.ledgerty.exceptions.InvalidParametersException;
 import org.ledgerty.exceptions.NotFoundException;
 
@@ -16,16 +19,18 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 
 /**
- * Created by Héctor on 05/06/2017.
+ * Created by Test on 05/06/2017.
  */
 public class UserManagerTest extends BaseTest {
 
-    private UserManager userManager;
+    private IUserManager userManager;
 
     @Before
     public void setUp() throws Exception {
         userManager = new UserManager(entityManager);
     }
+
+    /** LOGIN TESTS **/
 
     @Test(expected = InvalidParametersException.class)
     public void UserManagerTest_Login_When_EmailIsNull_Throws_InvalidParametersException() throws Exception {
@@ -59,11 +64,11 @@ public class UserManagerTest extends BaseTest {
                 new Date(),
                 "127.0.0.1",
                 false,
-                "Héctor",
-                "Espí Hernández",
-                "hectorspi@gmail.com",
+                "Test",
+                "User",
+                "email@email.com",
                 "123456",
-                "669803007",
+                "666666666",
                 "C:\\Borrame\\hespi",
                 0F,
                 0,
@@ -82,11 +87,11 @@ public class UserManagerTest extends BaseTest {
                 new Date(),
                 "127.0.0.1",
                 true,
-                "Héctor",
-                "Espí Hernández",
-                "hectorspi@gmail.com",
+                "Test",
+                "Surname",
+                "email@email.com",
                 "123456",
-                "669803007",
+                "666666666",
                 "C:\\Borrame\\hespi",
                 0F,
                 0,
@@ -99,6 +104,63 @@ public class UserManagerTest extends BaseTest {
         assertNotNull(user);
         assertTrue(EqualsBuilder.reflectionEquals(expected, user));
     }
+
+    /** Register TESTS **/
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserInfoIsNull_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(null);
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserEmailIsNull_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", null, "123456", "666666666"));
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserEmailIsEmpty_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", "", "123456", "666666666"));
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserFirstNameIsNull_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", null, "User", "email@email.com", "123456", "666666666"));
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserFirstNameIsEmpty_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "", "User", "email@email.com", "123456", "666666666"));
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserPasswordIsNull_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", "email@email.com", null, "666666666"));
+    }
+
+    @Test(expected = InvalidParametersException.class)
+    public void UserManagerTest_Register_When_UserPasswordIsEmpty_Throws_InvalidParametersException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", "email@email.com", "", "666666666"));
+    }
+
+    @Test(expected = AlreadyExistsException.class)
+    public void UserManagerTest_Register_When_UserEmailAlreadyExists_Throws_AlreadyExistsException() throws Exception {
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", "email@email.com", "123456", "666666666"));
+        userManager.Register(new UserInfoForAddition("127.0.0.1", "Test", "User", "email@email.com", "123456", "666666666")); //Second time must fail
+    }
+
+    @Test
+    public void UserManagerTest_Register_When_UserInfoIsComplete_Returns_CreatedUser() throws Exception {
+        User expected = new User("", new Date(), "localhost", true, "Test", "User", "email@email.com", "123456", "666666666", "", 0F, 0, 0);
+        User actual = userManager.Register(new UserInfoForAddition("localhost", "Test", "User", "email@email.com", "123456", "666666666"));
+
+        assertTrue(EqualsBuilder.reflectionEquals(expected, actual, "id", "guid", "dateAdded", "storagePath"));
+        assertNotNull(actual.getId());
+        assertNotNull(actual.getGuid());
+        assertNotNull(actual.getStoragePath());
+        assertEquals(DateFormatUtils.format(actual.getDateAdded(),"yyyy-mm-dd"), DateFormatUtils.format(new Date(),"yyyy-mm-dd"));
+    }
+
+    /** FUNCTIONS **/
 
     private void addUser(User userData) {
         entityManager.persist(userData);

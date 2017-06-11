@@ -1,23 +1,22 @@
 package org.ledgerty.business;
 
+import org.ledgerty.business.interfaces.IBaseManager;
+import org.ledgerty.common.database.GenericEntityManager;
+
 import javax.persistence.EntityManager;
 
 /**
  * Created by Héctor on 05/06/2017.
  */
-public class BaseManager {
+public class BaseManager<T> implements IBaseManager<T> {
 
-    private EntityManager entityManager;
+    private GenericEntityManager<T> entityManager;
 
-    public BaseManager(EntityManager entityManager) {
+    public BaseManager(GenericEntityManager<T> entityManager) {
         this.entityManager = entityManager;
     }
 
-    public EntityManager getEntityManager() {
+    public GenericEntityManager<T> getEntityManager() {
         return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }
