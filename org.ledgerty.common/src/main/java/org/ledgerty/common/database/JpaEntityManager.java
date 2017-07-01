@@ -2,8 +2,8 @@ package org.ledgerty.common.database;
 
 import org.hibernate.Session;
 import org.ledgerty.common.ValidationUtils;
-import org.ledgerty.exceptions.DatabaseException;
-import org.ledgerty.exceptions.InvalidParametersException;
+import org.ledgerty.common.exceptions.DatabaseException;
+import org.ledgerty.common.exceptions.InvalidParametersException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,7 +22,7 @@ public class JpaEntityManager<T> implements GenericEntityManager<T> {
     private Class<T> entityClass;
     private Session session;
 
-    public JpaEntityManager(Class<T> entityClass, EntityManager entityManager) throws ClassNotFoundException {
+    public JpaEntityManager(Class<T> entityClass, EntityManager entityManager) {
         this.entityManager = entityManager;
         this.entityClass = entityClass;
     }

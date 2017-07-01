@@ -1,7 +1,7 @@
 package org.ledgerty.common;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ledgerty.exceptions.BaseException;
+import org.ledgerty.common.exceptions.BaseException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;

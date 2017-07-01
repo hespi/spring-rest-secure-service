@@ -23,7 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="org.ledgerty.common.database" />
-        <module name="org.ledgerty.exceptions" />
+        <module name="org.ledgerty.services" />
       </profile>
       <profile default="false" name="Annotation profile for org.ledgerty.common" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -40,6 +40,7 @@
       <module name="org.ledgerty.dao" target="1.8" />
       <module name="org.ledgerty.dto" target="1.5" />
       <module name="org.ledgerty.exceptions" target="1.5" />
+      <module name="org.ledgerty.services" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

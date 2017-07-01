@@ -18,12 +18,6 @@
 
         <dependency>
             <groupId>org.ledgerty</groupId>
-            <artifactId>org.ledgerty.exceptions</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ledgerty</groupId>
             <artifactId>org.ledgerty.dao</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

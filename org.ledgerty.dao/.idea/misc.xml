@@ -9,8 +9,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../org.ledgerty.business/pom.xml" />
         <option value="$PROJECT_DIR$/../org.ledgerty.dto/pom.xml" />
-        <option value="$PROJECT_DIR$/../org.ledgerty.exceptions/pom.xml" />
         <option value="$PROJECT_DIR$/../org.ledgerty.common/pom.xml" />
+        <option value="$PROJECT_DIR$/../org.ledgerty.services/pom.xml" />
       </list>
     </option>
   </component>

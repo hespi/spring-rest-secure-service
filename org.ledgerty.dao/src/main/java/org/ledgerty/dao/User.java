@@ -59,6 +59,10 @@ public class User {
     public User() {
     }
 
+    public User(String guid) {
+        this.guid = guid;
+    }
+
     public User(String guid, Date dateAdded, String creationIP, Boolean active, String firstName, String lastName, String email, String password, String phoneNumber, String storagePath, Float storageMegaBytesUsed, Integer experience, Integer coins) {
         this.guid = guid;
         this.dateAdded = dateAdded;

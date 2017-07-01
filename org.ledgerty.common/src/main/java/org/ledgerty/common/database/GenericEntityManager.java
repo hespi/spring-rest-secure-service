@@ -1,5 +1,5 @@
 package org.ledgerty.common.database;
-import org.ledgerty.exceptions.DatabaseException;
+import org.ledgerty.common.exceptions.DatabaseException;
 
 import java.util.List;
 import java.util.stream.Stream;

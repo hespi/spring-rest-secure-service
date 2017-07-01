@@ -1,29 +1,27 @@
 package org.ledgerty.business;
 
 import org.ledgerty.business.interfaces.IUserManager;
+import org.ledgerty.common.GuidUtils;
 import org.ledgerty.common.ValidationUtils;
 import org.ledgerty.common.database.JpaEntityManager;
 import org.ledgerty.common.database.Query;
 import org.ledgerty.dao.User;
-import org.ledgerty.dto.UserInfoForAddition;
-import org.ledgerty.exceptions.AlreadyExistsException;
-import org.ledgerty.exceptions.InvalidParametersException;
-import org.ledgerty.exceptions.NotFoundException;
+import org.ledgerty.dto.in.UserInfoForAddition;
+import org.ledgerty.common.exceptions.AlreadyExistsException;
+import org.ledgerty.common.exceptions.InvalidParametersException;
+import org.ledgerty.common.exceptions.NotFoundException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 /**
  * Created by Héctor on 05/06/2017.
  */
 public class UserManager extends BaseManager<User> implements IUserManager {
 
-    public UserManager(EntityManager entityManager) throws ClassNotFoundException {
+    public UserManager(EntityManager entityManager) {
         super(new JpaEntityManager<User>(User.class, entityManager));
     }
 
@@ -39,8 +37,15 @@ public class UserManager extends BaseManager<User> implements IUserManager {
         return doAddUser(userData);
     }
 
+    public User getUserById(String userId) {
+        User user;
+        ValidationUtils.validateNotNullOrEmpty(InvalidParametersException.class, userId, "The user identifier cannot be empty");
+        ValidationUtils.validateNotNullOrEmpty(NotFoundException.class, user = doGetUserById(userId), "The user with the specified identifier doesn't exists");
+        return user;
+    }
+
     private User doAddUser(UserInfoForAddition userData) {
-        String userGuid = UUID.randomUUID().toString();
+        String userGuid = GuidUtils.generateShortGuid();
         return getEntityManager().insert(new User(userGuid,
                 new Date(),
                 userData.getCreationIP(),
@@ -68,6 +73,16 @@ public class UserManager extends BaseManager<User> implements IUserManager {
         ValidationUtils.validateNotNullOrEmpty(InvalidParametersException.class, user.getLastName(), "The user last name is required");
         ValidationUtils.validateNotNullOrEmpty(InvalidParametersException.class, user.getPassword(), "The user password is required");
         ValidationUtils.validateNullOrEmpty(AlreadyExistsException.class, getUserByEmail(user.getEmail()), "There's an already existing user with the same email");
+    }
+
+    private User doGetUserById(String userId) {
+        Optional<User> user = getEntityManager().select(new Query("SELECT u " +
+                "FROM User u " +
+                "WHERE " +
+                "u.guid = :guid AND u.active = true")
+                .addParameter("guid", userId)
+        ).findFirst();
+        return user.isPresent() ? user.get() : null;
     }
 
     private User getUserByEmail(String email) {
